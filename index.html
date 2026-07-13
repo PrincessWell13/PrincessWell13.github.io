@@ -487,6 +487,7 @@
     cursor:pointer; user-select:none; -webkit-user-select:none;
     filter:drop-shadow(0 4px 6px rgba(0,0,0,.25)); will-change:transform;
   }
+  #companion .sprite{display:inline-block; will-change:transform}
   #companion.sleeping::after{
     content:'💤'; position:absolute; top:-16px; right:-12px; font-size:14px;
     animation:zzz 1.8s ease-in-out infinite;
@@ -972,7 +973,7 @@
 <div class="toast" id="toast" role="status"></div>
 <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 <div class="disco-overlay" aria-hidden="true"></div>
-<div id="companion" title="Thị vệ của Điện hạ — bấm thử xem">🐇</div>
+<div id="companion" title="Thị vệ của Điện hạ — bấm thử xem"><span class="sprite">🐇</span></div>
 
 <!-- ============ LIGHTBOX ============ -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Xem ảnh phóng to">
@@ -1437,8 +1438,11 @@
       }
       px=Math.max(6,Math.min(innerWidth-42,px));
       if(py<.2)py=0;
-      const tf='translateX('+px.toFixed(1)+'px) translateY('+(-(py+by)).toFixed(1)+'px) scaleX('+(dir>0?-1:1)+') rotate('+rot.toFixed(0)+'deg)';
+      const tf='translateX('+px.toFixed(1)+'px) translateY('+(-(py+by)).toFixed(1)+'px)';
+      const sf='scaleX('+(dir>0?-1:1)+') rotate('+rot.toFixed(0)+'deg)';
       if(tf!==pet.dataset.tf){pet.dataset.tf=tf; pet.style.transform=tf}
+      const sprite=pet.querySelector('.sprite');
+      if(sf!==sprite.dataset.tf){sprite.dataset.tf=sf; sprite.style.transform=sf}
       requestAnimationFrame(petLoop);
     })();
   }
