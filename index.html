@@ -649,7 +649,8 @@
   .title-card{will-change:transform}
 
   /* 9. gợn sóng ripple khi bấm */
-  .btn,.sb-btn,.theme-btn,.feed-fab{position:relative; overflow:hidden}
+  .btn,.sb-btn,.theme-btn{position:relative}
+  .btn,.sb-btn,.theme-btn,.feed-fab{overflow:hidden}
   .ripple{
     position:absolute; border-radius:50%; background:currentColor;
     opacity:.28; transform:scale(0); pointer-events:none;
@@ -816,7 +817,7 @@
     </div>
     <div class="dossier">
       <figure class="dossier-photo reveal">
-        <img src="media/img75.jpg" alt="Hoàng tử Maximum ngủ say trong lòng bàn tay">
+        <img src="media/img60.jpg" alt="Hoàng tử Maximum ngủ say trong lòng bàn tay">
         <figcaption><b>Tư thế ngự giá đặc trưng:</b> ngủ ngửa trong lòng bàn tay — mức tin tưởng tuyệt đối chỉ dành cho cận thần thân tín.</figcaption>
       </figure>
       <div class="reveal">
@@ -988,7 +989,7 @@
 </div>
 
 <script>
-  const IMG_COUNT = 70, VID_COUNT = 13;
+  const IMG_COUNT = 65, VID_COUNT = 13;
   const pad = n => String(n).padStart(2,'0');
 
   /* ---- gallery ---- */
@@ -1320,10 +1321,11 @@
     clearTimeout(showToast.t);
     showToast.t=setTimeout(()=>toast.classList.remove('show'),3200);
   }
-  feedBtn.addEventListener('click',()=>{
+  function doFeed(x,y){
     carrots++; localStorage.setItem('maximum-carrots',carrots);
     feedCnt.textContent=carrots;
     playMunch();
+    if(typeof unlock==='function'&&carrots>=10)unlock('feast10');
     feedBtn.classList.remove('squish'); void feedBtn.offsetWidth; feedBtn.classList.add('squish');
     if(arch){arch.classList.remove('squish'); void arch.offsetWidth; arch.classList.add('squish')}
     if(!reduceMotion){
@@ -1338,13 +1340,16 @@
         c.addEventListener('animationend',()=>c.remove());
       }
       const p=document.createElement('span'); p.className='plus-one'; p.textContent='+1 măm';
-      const r=feedBtn.getBoundingClientRect();
-      p.style.left=(r.left+r.width/2-30)+'px'; p.style.top=(r.top-10)+'px';
+      let px,py;
+      if(x==null){const r=feedBtn.getBoundingClientRect(); px=r.left+r.width/2-30; py=r.top-10}
+      else{px=x-30; py=y-30}
+      p.style.left=px+'px'; p.style.top=py+'px';
       document.body.appendChild(p);
       p.addEventListener('animationend',()=>p.remove());
     }
     if(MILESTONES[carrots])showToast(MILESTONES[carrots]);
-  });
+  }
+  feedBtn.addEventListener('click',e=>doFeed());
 
   /* ================= LA BÀN TÂM TRẠNG ================= */
   const MOODS=[
